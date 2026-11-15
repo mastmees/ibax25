@@ -55,10 +55,11 @@ use at a same time.
 In each channel, AX25 frame payload starts with 6 byte header, uint16 values
 are little-endian:
 
-image ID   uint8
-row        uint16
-column     uint16
-format     uint8
+| image ID | uint8 |
+--------------------
+| row      | uint16 |
+| column   | uint16 |
+| format   | uint8 |
 
 The rest of the payload is pixel data in the specified format. The length of
 the pixel data is not given, it is implied from the AX25 frame length.
@@ -80,7 +81,7 @@ an arbitrary number that changes whenever transmission switches to a new
 image. as long as the image ID is the same, any received segment can be used
 to update the currently received image
 
-### row 
+### row
 
 number of the row for the received segment. rows start from 0, at the top of
 the image
@@ -96,7 +97,7 @@ pixel format specifier
 
 7 - reserved, 0
 6 - greyscale=0, color=1
-5 - bpp 
+5 - bpp
 4 - bpp
 3 - bpp
 2 - bpp
