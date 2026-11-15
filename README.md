@@ -55,11 +55,11 @@ use at a same time.
 In each channel, AX25 frame payload starts with 6 byte header, uint16 values
 are little-endian:
 
-| image ID | uint8 |
---------------------
+| image ID | uint8  |
+| -------- | ------ |
 | row      | uint16 |
 | column   | uint16 |
-| format   | uint8 |
+| format   | uint8  |
 
 The rest of the payload is pixel data in the specified format. The length of
 the pixel data is not given, it is implied from the AX25 frame length.
@@ -95,14 +95,16 @@ columns start from 0, on the left edge of the image
 
 pixel format specifier
 
-7 - reserved, 0
-6 - greyscale=0, color=1
-5 - bpp
-4 - bpp
-3 - bpp
-2 - bpp
-1 - bpp
-0 - bpp
+| bit | function |
+| --- | -------- |
+| 7 | reserved, 0 |
+| 6 | greyscale=0, color=1 |
+| 5 | bpp |
+| 4 | bpp |
+| 3 | bpp |
+| 2 | bpp |
+| 1 | bpp |
+| 0 | bpp |
 
 6 bit bits per pixel value allows for 1..31 bpp image formats in future,
 for currently defined image formats
@@ -123,16 +125,19 @@ color component gets 6 different values. Finding the nearest colour from RGB
 value does not require palette search, it is directly computable with
 integer arithmetic
 
+```
   // r,g,b are RGB components as 8 bit unsigned values
   r=((uint16_t)r+25)/51
   g=((uint16_t)g+25)/51
   b=((uint16_t)b+25)//51
   webcolor=r*36+g*6+b
+```
 
 ## color to greyscale
 
 Although any other ratios could be used, a typical RGB to 8-bit converstion
 using integer arithmetic would be
 
+```
   grey_level=((uint32_t)r*299+(uint32_t)g*587+(uint16_t)b*114)/1000
-
+```
