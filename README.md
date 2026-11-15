@@ -55,11 +55,11 @@ use at a same time.
 In each channel, AX25 frame payload starts with 6 byte header, uint16 values
 are little-endian:
 
-| image ID | uint8  |
+| image ID | uint8 |
 | -------- | ------ |
-| row      | uint16 |
-| column   | uint16 |
-| format   | uint8  |
+| row | uint16 |
+| column | uint16 |
+| format | uint8 |
 
 The rest of the payload is pixel data in the specified format. The length of
 the pixel data is not given, it is implied from the AX25 frame length.
