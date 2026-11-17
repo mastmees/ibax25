@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "ibax.hpp"
+#include "ibax25.hpp"
 
 uint8_t *pixels;
 
@@ -34,22 +34,53 @@ void save(const char *fn,uint32_t nbytes)
   }
 }
 
+bool load(const char *fn)
+{
+FILE *fp=fopen(fn,"rb");
+uint32_t fs;
+  if (!fp)
+    return false;
+  fseek(fp,0,SEEK_END);
+  fs=ftell(fp);
+  if (pixels)
+    free(pixels);
+  pixels=(uint8_t *)malloc(fs);
+  if (pixels) {
+    rewind(fp);
+    if (fread(pixels,1,fs,fp)!=fs) {
+      free(pixels);
+      pixels=NULL;
+    }
+    image.set_size(320,240,24);
+  }
+  fclose(fp);
+  return pixels!=NULL;
+}
+
 int main(int argc,char **argv)
 {
-FILE *fp;
-uint32_t fs;
-  if (argc>1) {
-    fp=fopen(argv[1],"rb");
-    fseek(fp,0,SEEK_END);
-    fs=ftell(fp);
-    pixels=(uint8_t *)malloc(fs);
-    if (pixels) {
-      rewind(fp);
-      fread(pixels,1,fs,fp);
-    }
-    fclose(fp);
+  if (load("dump.rgb")) {
+    image.rgb_to_color8();
+    save("dump.colr8",image.bitmapsize());
   }
-  if (pixels)
-    save("dump.rgb",fs);
+  if (load("dump.rgb")) {
+    image.rgb_to_greyscale8();
+    save("dump.grey8",image.bitmapsize());
+  }
+  if (load("dump.rgb")) {
+    image.rgb_to_greyscale8();
+    image.greyscale8_to_greyscale4();
+    save("dump.grey4",image.bitmapsize());
+  }
+  if (load("dump.rgb")) {
+    image.rgb_to_greyscale8();
+    image.greyscale8_to_greyscale2();
+    save("dump.grey2",image.bitmapsize());
+  }
+  if (load("dump.rgb")) {
+    image.rgb_to_greyscale8();
+    image.greyscale8_to_bw1();
+    save("dump.bw",image.bitmapsize());
+  }
   return 0;
 }
