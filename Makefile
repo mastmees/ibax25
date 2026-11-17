@@ -23,14 +23,15 @@ all:	ibax_test
 clean:
 	find . -name '*~' -delete
 	-rm -rf __pycache__
-	-rm *.o
+	-rm -f *.o
+	-rm -f ibax_test
 	
 
 backup:	clean
 	rm -f ../ibax25_backup.zip
 	zip -r ../ibax25_backup.zip *
 
-ibax_test: clean ibax_test.o ibax.hpp ibax_test.cpp
+ibax_test: clean ibax_test.o ibax25.hpp ibax_test.cpp
 	$(LD) ibax_test.o -o $@
 	
 %.o : %.cpp
