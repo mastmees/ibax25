@@ -19,9 +19,9 @@ for f in sys.argv[1:]:
   image=image.convert("RGB")
   pixels=image.load()
   data=bytearray()
-  for y in range(image.size[1]):
-    for x in range(image.size[0]):
-      data.extend(pixels[x,y])
+  for y in range(image.height):
+    for x in range(image.width):
+      data.extend(image.getpixel((x,y)))
   d,e=os.path.split(f)
   fe=f.rpartition(".")
   f=os.path.join(d,fe[0]+"."+"rgb")
