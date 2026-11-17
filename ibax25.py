@@ -53,11 +53,11 @@ class App(tk.Tk):
       sys.exit(1)
       
     if "Comic Sans MS" in font.families():
-      self.font=font.Font(family="Comic Sans MS",size=16,weight="normal")
+      self.font=font.Font(family="Comic Sans MS",size=10,weight="normal")
     elif "Comic Neue" in font.families():
-      self.font=font.Font(family="Comic Neue",size=16,weight="normal")
+      self.font=font.Font(family="Comic Neue",size=10,weight="normal")
     else:
-      self.font=font.Font(family="Helvetica",size=16,weight="normal")
+      self.font=font.Font(family="Helvetica",size=10,weight="normal")
       
     self.controls = tk.Frame(self,relief=tk.FLAT)
     self.controls.grid(row=0,column=0,sticky="new",padx=10)
@@ -378,11 +378,11 @@ class App(tk.Tk):
                 b=max(0,min(b+be*3//16,255))
                 pixels[x-1,y+1]=(r,g,b)
 
-                r,g,b=pixels[x,y+1]
-                r=max(0,min(r+re*5//16,255))
-                g=max(0,min(g+ge*5//16,255))
-                b=max(0,min(b+be*5//16,255))
-                pixels[x,y+1]=(r,g,b)
+              r,g,b=pixels[x,y+1]
+              r=max(0,min(r+re*5//16,255))
+              g=max(0,min(g+ge*5//16,255))
+              b=max(0,min(b+be*5//16,255))
+              pixels[x,y+1]=(r,g,b)
               
               if x + 1 < width:
                 r,g,b=pixels[x+1,y+1]
