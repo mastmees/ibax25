@@ -111,33 +111,12 @@ protected:
   
   static uint8_t greyscale2_reducer(uint8_t c)
   {
-    if (c<43)
-      return 0;
-    if (c>=213)
-      return 255;
-    if (c>128)
-      return 170;
-    return 86;
+    return grey_to_grey2(c)*83;
   }
 
   static uint8_t greyscale4_reducer(uint8_t c)
   {
-    if (c<9) return 0;
-    if (c<26) return 9+(26-9)/2;
-    if (c<43) return 26+(43+26)/2;
-    if (c<60) return 43+(60-43)/2;
-    if (c<77) return 60+(77-60)/2;
-    if (c<94) return 77+(94-77)/2;
-    if (c<111) return 94+(111-94)/2;
-    if (c<128) return 111+(128-111)/2;
-    if (c<145) return 128+(145-128)/2;
-    if (c<162) return 145+(162-145)/2;
-    if (c<179) return 162+(179-162)/2;
-    if (c<196) return 179+(196-179)/2;
-    if (c<213) return 196+(312-196)/2;
-    if (c<230) return 213+(230-213)/2;
-    if (c<247) return 230+(247-230)/2;
-    return 247+(255-247)/2;
+    return grey_to_grey4(c)*17;
   }
     
   static uint8_t limit(int16_t c)
