@@ -1,3 +1,25 @@
+# MIT License
+#
+# Copyright (c) 2026 Madis Kaal
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import sys
 import os.path
 import math
@@ -22,36 +44,34 @@ AX25HEADER = bytearray((
   ord(' ')<<1,
   ord(' ')<<1,
   0,
+  ord('E')<<1,
+  ord('S')<<1,
+  ord('1')<<1,
   ord('M')<<1,
   ord('S')<<1,
   ord('T')<<1,
-  ord('1')<<1,
-  ord(' ')<<1,
-  ord(' ')<<1,
   0x81,
   0x03,
   0xf0))
+
+# this is a tool for evaluating image formats and simulated transmission
+# at defined bitrate and changeable packet loss
 
 class App(tk.Tk):
 
   def __init__(self, *args,**kwargs):
     tk.Tk.__init__(self, *args, **kwargs)
-    #self.geometry("1000x600")
-
     self.processor=imageproc()
     self.result_bpp=8
     self.in_color=True
     self.image_id=0
     self.received_image_id=None
     self.remote_text=""
-    
     self.send_queue=deque()
     self.receive_queue=deque()
-    
     if IMAGE_WIDTH&7:
       print("Image width must be multiple of 8")
       sys.exit(1)
-      
     if "Comic Sans MS" in font.families():
       self.font=font.Font(family="Comic Sans MS",size=10,weight="normal")
     elif "Comic Neue" in font.families():
@@ -197,7 +217,6 @@ class App(tk.Tk):
         line.extend(struct.pack("<BHHB",self.image_id,0,0,0))
         line.extend(os.path.basename(self.source_image_name).encode('utf8'))
         self.send_queue.append(line)
-
       line=bytearray(AX25HEADER)
       format=self.result_bpp
       if self.in_color:
@@ -346,8 +365,8 @@ class App(tk.Tk):
     for y in range(height):
       for x in range(width):
         c=sourcepixels[x,y]
-        ci=reduce(c)                 # self.processor.map_to_8bit(c)
-        resultpixels[x,y]=render(ci) #self.processor.map_to_rgb(ci)
+        ci=reduce(c)
+        resultpixels[x,y]=render(ci)
 
   def convert_and_dither(self,reduce,render):
     pixels=self.result_image.load()
@@ -355,12 +374,12 @@ class App(tk.Tk):
     for y in range(height):
       for x in range(width):
           old=pixels[x,y]
-          r,g,b=reduce(old) # self.processor.nearest_web_safe_color(old)
+          r,g,b=reduce(old)
           r=max(0,min(r,255))
           g=max(0,min(g,255))
           b=max(0,min(b,255))
           pixels[x,y]=render((r,g,b))
-          re=old[0]-r # errors in each color channel
+          re=old[0]-r
           ge=old[1]-g
           be=old[2]-b
           # distribute error to neighbours with F-S coefficients
