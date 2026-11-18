@@ -153,6 +153,10 @@ It is highly advisable to include the URL link to this repository in every
 image transmission, so that anyone interested can find out what is being
 transmitted and how to decode the images.
 
+Any text lines can, and should be transmitted more than once during every
+image broadcast, to improve the odds of getting them all in case of packet
+loss.
+
 ## Web-safe colour palette
 
 web-safe colour palette defines a fixed palette of 216 colours where each
