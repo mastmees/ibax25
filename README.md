@@ -2,7 +2,12 @@
 
 This repository contains description, tools, and code samples for
 broadcasting images using AX.25 protocol. Several image formats
-are defined, from 8-bit indexed color to black and white bitmaps.
+are defined, from 8-bit indexed colour to black and white bitmaps.
+
+The main use cases for this image transmission method are
+downlinking thumbnail images of camera captures, broadcasing
+messages (think of polaroids from space) and sending down
+pre-rendered bitmap screens of telemetry information.
 
 Madis Kaal mast@nomad.ee
 
@@ -28,16 +33,16 @@ Sending large high resolution images is not an objective
 
 Based on experiments done with ibax25.py, 4 formats were chosen
 
-1. 8-bit indexed color with fixed palette (web-safe colors)
+1. 8-bit indexed colour with fixed palette (web-safe colours)
 2. 4-bit greyscale
 3. 2-bit greyscale
 4. 1-bit b/w
 
-Starting from uncompressed 24-bit RGB image, 8 bit color image is 3x smaller,
+Starting from uncompressed 24-bit RGB image, 8 bit colour image is 3x smaller,
 4-bit greyscale is 6x smaller, 2-bit greyscale is 12x smaller and 1-bit
 b/w image is 24x smaller
 
-Such a big reduction in color space would produce very poor images,
+Such a big reduction in colour space would produce very poor images,
 so for photo images dithering is a must-have.
 
 Image dimensions can be freely chosen, in practice 240 pixels is probably
@@ -50,7 +55,7 @@ each segment that is sent would have to be separately compressed. The
 minimal memory requirement limits the compression options further.
 
 Tests done with LZ compression resulted in 20-30% overall size reduction for
-dithered color images what did not have much black background. For 4-bit
+dithered colour images what did not have much black background. For 4-bit
 dithered greyscale images the size reduction was marginal, for 1-bit images
 the compression did not reduce the image size. Again, this is mainly because
 of compressing each image segment separately. Other compression methods may
@@ -114,7 +119,7 @@ pixel format specifier
 | bit | function |
 | --- | -------- |
 | 7 | reserved, 0 |
-| 6 | greyscale=0, color=1 |
+| 6 | greyscale=0, colour=1 |
 | 5 | bpp |
 | 4 | bpp |
 | 3 | bpp |
@@ -125,7 +130,7 @@ pixel format specifier
 6 bit bits per pixel value allows for 32 bpp image formats in future,
 for currently defined image formats
 
-8 bit color is 01001000 = 0x48  
+8 bit colour is 01001000 = 0x48  
 8 bit greyscale is 00001000 = 0x08  
 4 bit greyscale is 0x00000100 = 0x04  
 2 bit greyscale is 0x00000010 = 0x02  
@@ -148,10 +153,10 @@ It is highly advisable to include the URL link to this repository in every
 image transmission, so that anyone interested can find out what is being
 transmitted and how to decode the images.
 
-## web-safe color palette
+## Web-safe colour palette
 
-web-safe color palette defines a fixed palette of 216 colors where each
-color component gets 6 different values. Finding the nearest colour from RGB
+web-safe colour palette defines a fixed palette of 216 colours where each
+colour component gets 6 different values. Finding the nearest colour from RGB
 value does not require palette search, it is directly computable with
 integer arithmetic
 
@@ -163,7 +168,7 @@ integer arithmetic
   webcolor=r*36+g*6+b
 ```
 
-## colour to greyscale
+## Colour to greyscale
 
 Although any other ratios could be used, a typical RGB to 8-bit converstion
 using integer arithmetic would be
